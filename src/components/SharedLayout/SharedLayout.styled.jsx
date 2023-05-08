@@ -6,8 +6,9 @@ export const Header = styled.header`
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  padding: 12px;
+  padding: 24px;
   margin-bottom: 28px;
+  background-color: #5736a3;
   box-shadow: 0px 2px 5px #706f6f;
   > nav {
     display: flex;
@@ -15,13 +16,14 @@ export const Header = styled.header`
 `;
 
 export const Link = styled(NavLink)`
-  padding: 8px 16px;
-  font-size: 22px;
+  padding: 12px 0;
+  margin-right: 24px;
+  font-size: 24px;
   text-decoration: none;
   color: #000000;
   font-weight: 500;
   &.active {
-    color: #c02b51;
+    color: #ebd8ff;
   }
 `;
 

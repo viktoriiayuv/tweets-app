@@ -3,20 +3,30 @@ import { getUsers, updateFollowers } from "../../services/usersApi";
 import TweetCard from "../TweetCard/TweetCard";
 import Button from "../Button/Button";
 import { ListContainer } from "./CardList.styled";
+import Loader from "../Loader/Loader";
+import Filter from "../Filter/Filter";
 
 const CardsList = () => {
   const [users, setUsers] = useState([]);
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
+  const [filter, setFilter] = useState("all");
+  const [followingUsers, setFollowingUsers] = useState(
+    () => JSON.parse(localStorage.getItem("followingUsers")) || []
+  );
+
+  useEffect(() => {
+    localStorage.setItem("followingUsers", JSON.stringify(followingUsers));
+  }, [followingUsers]);
 
   useEffect(() => {
     setIsLoading(true);
-    if (page === 1) {
-      setUsers([]);
-    }
-
     getUsers(page)
       .then((users) => {
+        if (page === 1) {
+          setUsers(users);
+          return;
+        }
         setUsers((prevState) => [...prevState, ...users]);
       })
       .catch((error) => {
@@ -39,24 +49,65 @@ const CardsList = () => {
     updateFollowers(id, changedUser);
   };
 
+  const handleFollow = (id) => {
+    setFollowingUsers((prevStage) => [...prevStage, id]);
+    handleFollowersChange(id, 1);
+  };
+
+  const handleUnfollow = (id) => {
+    setFollowingUsers((prevStage) =>
+      prevStage.filter((userId) => userId !== id)
+    );
+    handleFollowersChange(id, -1);
+  };
+
+  const filterChange = (filterText) => {
+    setFilter(filterText);
+  };
+
+  const filterUsers = (users, filter, followingUsers) => {
+    const unfollowedUsers = users.filter(
+      (user) => !followingUsers.includes(user.id)
+    );
+    const followedUsers = users.filter((user) =>
+      followingUsers.includes(user.id)
+    );
+    if (filter === "all") {
+      return users;
+    }
+    if (filter === "follow") {
+      return unfollowedUsers;
+    }
+    if (filter === "followings") {
+      return followedUsers;
+    }
+  };
+
+  const filteredUsers = filterUsers(users, filter, followingUsers);
+
   return (
     <>
       {users.length > 0 && (
-        <ListContainer>
-          {users.map(({ id, tweets, followers, avatar }) => (
-            <TweetCard
-              key={id}
-              id={id}
-              tweets={tweets}
-              followers={followers}
-              avatar={avatar}
-              handleFollowersChange={handleFollowersChange}
-            />
-          ))}
-        </ListContainer>
+        <>
+          <Filter filterChange={filterChange} />
+          <ListContainer>
+            {filteredUsers.map(({ id, tweets, followers, avatar }) => (
+              <TweetCard
+                key={id}
+                id={id}
+                tweets={tweets}
+                followers={followers}
+                avatar={avatar}
+                followingUsers={followingUsers}
+                handleFollow={handleFollow}
+                handleUnfollow={handleUnfollow}
+              />
+            ))}
+          </ListContainer>
+        </>
       )}
-      {isLoading && <p>Loading...</p>}
-      {!isLoading && users.length > 0 && page < 5 && (
+      {isLoading && <Loader />}
+      {!isLoading && users.length > 0 && page < 7 && (
         <Button onClick={handlePageChange} text="Load more" />
       )}
     </>

@@ -1,9 +1,12 @@
+import { useNavigate } from "react-router-dom";
 import CardsList from "../../components/CardsList/CardsList";
+import Button from "../../components/Button/Button";
 
 const TweetsPage = () => {
+  const navigator = useNavigate();
   return (
     <>
-      Tweets Page
+      <Button text="Back" onClick={() => navigator("/")} />
       <CardsList />
     </>
   );
