@@ -1,2 +1,0 @@
-"use strict";(self.webpackChunktweets_app=self.webpackChunktweets_app||[]).push([[504],{504:function(e,t,s){s.r(t);var n=s(836),a=s(184);t.default=function(){return(0,a.jsxs)(a.Fragment,{children:["Tweets Page",(0,a.jsx)(n.Z,{})]})}}}]);
-//# sourceMappingURL=504.f4f06314.chunk.js.map
