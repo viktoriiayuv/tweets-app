@@ -12,7 +12,7 @@ const App = () => {
         <Route index element={<HomePage />} />
         <Route path="tweets" element={<TweetsPage />} />
       </Route>
-      <Route path="*" element={<Navigate to="/" replace />} />
+      <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );
 };
