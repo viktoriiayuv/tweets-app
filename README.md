@@ -6,9 +6,9 @@ This application allows you to load and view user information cards. You have th
 
 1. Go to the [application page](https://viktoriiayuv.github.io/tweets-app/)
 2. Use navigation in header to go to page "Tweets"
-3. To come back to Home page click "Back" button to or use navigation in header.
+3. To come back to "Home" page click "Back" button or use navigation in header.
 4. To load more users click "Load more" button.
-5. To folow user click "Follow" button.
+5. To follow user click "Follow" button.
 6. To unfollow user click "Following" button.
 7. To filter loaded users choose option in dropdown.
 
