@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { getUsers, updateFollowers } from "../../services/usersApi";
+import { ListContainer, NotFoundInfo } from "./CardList.styled";
+import { filterUsers } from "../../utils/filterUsers";
 import TweetCard from "../TweetCard/TweetCard";
 import Button from "../Button/Button";
-import { ListContainer } from "./CardList.styled";
 import Loader from "../Loader/Loader";
 import Filter from "../Filter/Filter";
 
@@ -14,6 +15,8 @@ const CardsList = () => {
   const [followingUsers, setFollowingUsers] = useState(
     () => JSON.parse(localStorage.getItem("followingUsers")) || []
   );
+
+  const filteredUsers = filterUsers(users, filter, followingUsers);
 
   useEffect(() => {
     localStorage.setItem("followingUsers", JSON.stringify(followingUsers));
@@ -44,7 +47,6 @@ const CardsList = () => {
   const handleFollowersChange = (id, step) => {
     const changedUser = users.find((user) => user.id === id);
     changedUser.followers += step;
-    console.log(changedUser);
     setUsers((prevState) => [...prevState], changedUser);
     updateFollowers(id, changedUser);
   };
@@ -65,36 +67,29 @@ const CardsList = () => {
     setFilter(filterText);
   };
 
-  const filterUsers = (users, filter, followingUsers) => {
-    const unfollowedUsers = users.filter(
-      (user) => !followingUsers.includes(user.id)
-    );
-    const followedUsers = users.filter((user) =>
-      followingUsers.includes(user.id)
-    );
-    if (filter === "all") {
-      return users;
-    }
-    if (filter === "follow") {
-      return unfollowedUsers;
-    }
-    if (filter === "followings") {
-      return followedUsers;
-    }
-  };
-
-  const filteredUsers = filterUsers(users, filter, followingUsers);
-
   return (
     <>
       {users.length > 0 && (
         <>
           <Filter filterChange={filterChange} />
+          {(filter === "follow" || filter === "followings") && (
+            <p>
+              We have filtered out all uploaded users. You can load more users
+              in the mode "show all". If the button "Load more" is missing, then
+              you have downloaded all users.
+            </p>
+          )}
+          {filteredUsers.length === 0 && (
+            <NotFoundInfo>
+              We did not find any users with choosed state.
+            </NotFoundInfo>
+          )}
           <ListContainer>
-            {filteredUsers.map(({ id, tweets, followers, avatar }) => (
+            {filteredUsers.map(({ id, user, tweets, followers, avatar }) => (
               <TweetCard
                 key={id}
                 id={id}
+                user={user}
                 tweets={tweets}
                 followers={followers}
                 avatar={avatar}
@@ -107,7 +102,7 @@ const CardsList = () => {
         </>
       )}
       {isLoading && <Loader />}
-      {!isLoading && users.length > 0 && page < 7 && (
+      {!isLoading && users.length > 0 && page < 7 && filter === "all" && (
         <Button onClick={handlePageChange} text="Load more" />
       )}
     </>

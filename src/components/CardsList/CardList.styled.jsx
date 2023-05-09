@@ -8,3 +8,10 @@ export const ListContainer = styled.ul`
   gap: 48px;
   list-style: none;
 `;
+
+export const NotFoundInfo = styled.p`
+  margin: 16px 0;
+  font-size: 20px;
+  font-weight: 600;
+  text-align: center;
+`;

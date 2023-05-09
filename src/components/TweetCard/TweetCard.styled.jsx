@@ -39,13 +39,12 @@ export const TweetCardContainer = styled.li`
 
   .cardBtn {
     margin: 0 auto;
+    padding: 14px 28px;
     width: 196px;
     height: 50px;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 14px 28px;
-    background: #ebd8ff;
     box-shadow: 0px 3.43693px 3.43693px rgba(0, 0, 0, 0.25);
     border: none;
     border-radius: 10.3108px;
@@ -59,10 +58,23 @@ export const TweetCardContainer = styled.li`
     text-transform: uppercase;
     color: #373737;
     transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .followBtn {
+    background: #ebd8ff;
 
     &:hover,
     &:focus {
       background: #dbc8f0;
+    }
+  }
+
+  .followingBtn {
+    background: #5cd3a8;
+
+    &:hover,
+    &:focus {
+      background: #53b691;
     }
   }
 

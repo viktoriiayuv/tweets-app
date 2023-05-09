@@ -2,6 +2,7 @@ body {
   margin: 0 0 36px 0;
   padding: 0;
   font-family: "Montserrat", sans-serif;
+  color: #373737;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

@@ -10,10 +10,4 @@ export const Dropdown = styled.select`
   cursor: pointer;
   background: #ebd8ff;
   color: #373737;
-
-  option {
-    /* background-color: #5736a3;
-    color: #ebd8ff; */
-    border-radius: 10.3108px;
-  }
 `;
