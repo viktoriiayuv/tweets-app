@@ -4,7 +4,7 @@ const HomePage = () => {
   return (
     <HomePageContainer>
       <h1>Tweets App</h1>
-      <p>Three easy steps to use this application: </p>
+      <p>Easy steps to use this application: </p>
       <ul>
         <li>Go to page Tweets</li>
         <li>View user profiles</li>
